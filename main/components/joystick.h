@@ -1,0 +1,8 @@
+#ifndef _JOYSTICK_H__
+#define _JOYSTICK_H__
+
+#define HORIZONTAL_JOYSTICK_PIN 34
+#define VERTICAL_JOYSTICK_PIN   35
+#define BUTTON_JOYSTICK_PIN     32
+
+#endif
