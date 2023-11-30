@@ -7,6 +7,8 @@ void app_main(void)
 {
 mcpwm_cmpr_handle_t wristServo = wrist_servo_init(); 
 mcpwm_cmpr_handle_t shoulderServo = shoulder_servo_init(); 
+int horizontal;
+int vertical;
 
 while(1){
     //Setting servos in center position.
