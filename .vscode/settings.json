@@ -15,7 +15,11 @@
     "idf.pythonBinPathWin": "C:\\Users\\soder\\.espressif\\python_env\\idf5.1_py3.11_env\\Scripts\\python.exe",
     "idf.toolsPathWin": "C:\\Users\\soder\\.espressif",
     "files.associations": {
-        "servo.h": "c"
+        "servo.h": "c",
+        "adc.h": "c",
+        "test_common_adc.h": "c",
+        "adc_oneshot.h": "c",
+        "esp_adc_cal.h": "c"
     },
     "idf.flashType": "UART"
 }
