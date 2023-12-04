@@ -3,7 +3,7 @@
 #include "driver/adc.h"
 #include "esp_adc_cal.h"
 
-esp_err_t joystick_init()
+esp_err_t joystick_init(esp_adc_cal_characteristics_t* adc1_charecteristics)
 {
     //Setting up the voltage range to 11db (~150-2450mV).
     adc1_config_channel_atten(HORIZONTAL_ADC1, ADC_ATTEN_DB_11); //Horizontal pin
@@ -11,8 +11,7 @@ esp_err_t joystick_init()
     adc1_config_channel_atten(JOYSTICK_BUTTON_ADC1, ADC_ATTEN_DB_11); //Button pin
 
     //Calibrate the voltage on ADC1 on 11dB
-    static esp_adc_cal_characteristics_t adc1_charecteristics; 
-    esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_11, ADC_WIDTH_BIT_DEFAULT, 0, &adc1_charecteristics); 
+    esp_adc_cal_characterize(ADC_UNIT_1, ADC_ATTEN_DB_11, ADC_WIDTH_BIT_DEFAULT, 0, adc1_charecteristics); 
 
     //Configure BIT width, DEFAULT is 12-bits.
     adc1_config_width(ADC_WIDTH_BIT_DEFAULT);

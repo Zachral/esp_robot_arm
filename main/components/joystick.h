@@ -1,7 +1,7 @@
 #ifndef _JOYSTICK_H__
 #define _JOYSTICK_H__
 
-#include "driver/adc.h"
+#include "esp_adc_cal.h"
 
 #define HORIZONTAL_JOYSTICK_PIN 34
 #define VERTICAL_JOYSTICK_PIN   35
@@ -10,5 +10,5 @@
 #define VERTICAL_ADC1           ADC1_CHANNEL_7
 #define JOYSTICK_BUTTON_ADC1    ADC1_CHANNEL_4
 
-esp_err_t joystick_init(); 
+esp_err_t joystick_init(esp_adc_cal_characteristics_t* adc1_charecteristics);
 #endif
