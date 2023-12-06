@@ -19,7 +19,10 @@
         "adc.h": "c",
         "test_common_adc.h": "c",
         "adc_oneshot.h": "c",
-        "esp_adc_cal.h": "c"
+        "esp_adc_cal.h": "c",
+        "adc_cali.h": "c",
+        "adc_continuous.h": "c",
+        "adc_cali_scheme.h": "c"
     },
     "idf.flashType": "UART"
 }
