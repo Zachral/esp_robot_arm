@@ -9,11 +9,10 @@
 #include "esp_log.h"
 #include "driver/mcpwm_prelude.h"
 #include "servo.h"
+#include "driver/gpio.h"
 
 static const char *L = "Left servo";
 static const char *R = "Right servo"; 
- 
-// int servoSpeed = 80;
 
 uint32_t run_servos_to_angle(int servoAngle){
     return (servoAngle - SERVO_MIN_DEGREE) * (SERVO_MAX_PULSEWIDTH_US - SERVO_MIN_PULSEWIDTH_US) / (SERVO_MAX_DEGREE - SERVO_MIN_DEGREE) + SERVO_MIN_PULSEWIDTH_US;
@@ -47,13 +46,23 @@ mcpwm_cmpr_handle_t wrist_servo_init(){
     mcpwm_comparator_config_t wrist_servo_comparator_config = {
         .flags.update_cmp_on_tez = true,
     };
+
+    gipo_config_t io_config_wrist = {
+        .pin_bit_mask = 1ULL << WRIST_SERVO_GPIO,
+        .mode = GIPO_MODE_INPUT,
+        .intr_typ = GIPO_PIN_INTR_ANYEDGE,
+    }; 
+    gipo_config(&io_config_wrist); 
+
     ESP_ERROR_CHECK(mcpwm_new_comparator(wrist_servo_operator, &wrist_servo_comparator_config, &wrist_servo_comparator));
 
     mcpwm_gen_handle_t wrist_servo_generator = NULL;
     mcpwm_generator_config_t wrist_servo_generator_config = {
         .gen_gpio_num = WRIST_SERVO_GPIO,
     };
+
     ESP_ERROR_CHECK(mcpwm_new_generator(wrist_servo_operator, &wrist_servo_generator_config, &wrist_servo_generator));
+    ESP_ERROR_CHECK(gpio_isr_handler_add(WRIST_SERVO_GPIO, wrist_servo_isr, (void *)wrist_servo_comparator));
 
     // set the initial compare value, so that the servo will spin to the center position
     ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(wrist_servo_comparator, run_servos_to_angle(0)));
@@ -102,11 +111,19 @@ mcpwm_cmpr_handle_t shoulder_servo_init(){
     };
     ESP_ERROR_CHECK(mcpwm_new_comparator(shoulder_servo_operator, &shoulder_servo_comparator_config, &shoulder_servo_comparator));
 
+    gipo_config_t io_config_shoulder = {
+        .pin_bit_mask = 1ULL << SHOULDER_SERVO_GIPO,
+        .mode = GIPO_MODE_INPUT,
+        .intr_typ = GIPO_PIN_INTR_ANYEDGE,
+    }; 
+    gipo_config(&io_shoulder_wrist); 
+
     mcpwm_gen_handle_t shoulder_servo_generator = NULL;
     mcpwm_generator_config_t shoulder_servo_generator_config = {
         .gen_gpio_num = SHOULDER_SERVO_GIPO,
     };
     ESP_ERROR_CHECK(mcpwm_new_generator(shoulder_servo_operator, &shoulder_servo_generator_config, &shoulder_servo_generator));
+    ESP_ERROR_CHECK(gpio_isr_handler_add(SHOULDER_SERVO_GIPO, shoulder_servo_isr, (void *)shoulder_servo_comparator));
 
     //set the initial compare value, so that the servo will spin to the center position
     ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(shoulder_servo_comparator, run_servos_to_angle(0)));
