@@ -16,14 +16,20 @@ void read_joystick_input(void *pvParameters)
         //getting joystick reading
         horizontalReadingRaw = adc1_get_raw(HORIZONTAL_ADC1);
         verticalReadingRaw = adc1_get_raw(VERTICAL_ADC1); 
+        printf("Horz: %d         Vert: %d\n", horizontalReadingRaw, verticalReadingRaw);
 
         //turning servo arm depending on joystick input
-        if(verticalReadingRaw > MIN_WRIST_UP || verticalReadingRaw < MIN_WRIST_DOWN)
-        {
-            ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(servo_handles.wristServo, run_servos_to_angle(map_joystick_raw_to_degree(verticalReadingRaw))));
-        } 
+        // if(verticalReadingRaw > MIN_WRIST_UP || verticalReadingRaw < MIN_WRIST_DOWN)
+        // {
+        //     ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(servo_handles.wristServo, run_servos_to_angle(map_joystick_raw_to_degree(verticalReadingRaw))));
+        // } 
 
-        if(horizontalReadingRaw > MIN_SHOULDER_RIGHT || horizontalReadingRaw < MIN_SHOULDER_LEFT)
+        if(horizontalReadingRaw > MIN_SHOULDER_RIGHT) 
+        {
+            ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(servo_handles.shoulderServo, run_servos_to_angle(map_joystick_raw_to_degree(horizontalReadingRaw))));
+        }
+
+        if(horizontalReadingRaw < MIN_SHOULDER_LEFT)
         {
             ESP_ERROR_CHECK(mcpwm_comparator_set_compare_value(servo_handles.shoulderServo, run_servos_to_angle(map_joystick_raw_to_degree(horizontalReadingRaw))));
         }

@@ -13,7 +13,6 @@
 static const char *L = "Left servo";
 static const char *R = "Right servo"; 
  
-// int servoSpeed = 80;
 
 uint32_t run_servos_to_angle(int servoAngle){
     return (servoAngle - SERVO_MIN_DEGREE) * (SERVO_MAX_PULSEWIDTH_US - SERVO_MIN_PULSEWIDTH_US) / (SERVO_MAX_DEGREE - SERVO_MIN_DEGREE) + SERVO_MIN_PULSEWIDTH_US;
@@ -22,6 +21,7 @@ uint32_t run_servos_to_angle(int servoAngle){
 
 mcpwm_cmpr_handle_t wrist_servo_init(){
     /*Initilizes wrist servo*/
+    vTaskDelay(pdMS_TO_TICKS(10)); 
     ESP_LOGI(L, "Create timer and operator");
     mcpwm_timer_handle_t wrist_servo_timer = NULL;
     mcpwm_timer_config_t wrist_servo_timer_config = {
@@ -75,6 +75,7 @@ mcpwm_cmpr_handle_t wrist_servo_init(){
 
 mcpwm_cmpr_handle_t shoulder_servo_init(){
     /*Initilizes shoulder servo*/
+    vTaskDelay(pdMS_TO_TICKS(10));
     ESP_LOGI(R, "Create timer and operator");
     mcpwm_timer_handle_t shoulder_servo_timer = NULL;
     mcpwm_timer_config_t shoulder_servo_timer_config = {

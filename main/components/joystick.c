@@ -28,5 +28,6 @@ esp_err_t joystick_init()
 int map_joystick_raw_to_degree(int input) 
 {
     float degree = ((float)(input - MIN_RAW_INPUT) / (MAX_RAW_INPUT - MIN_RAW_INPUT)) * (MAX_DEGREE - MIN_DEGREE) + MIN_DEGREE;
+    printf("Setting servo to %d\n",(int)(degree + 0.5)); 
     return (int)(degree + 0.5);
 }

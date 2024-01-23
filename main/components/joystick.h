@@ -11,12 +11,12 @@
 #define JOYSTICK_BUTTON_ADC1    ADC1_CHANNEL_4
 #define MIN_WRIST_UP            2100
 #define MIN_WRIST_DOWN          1600
-#define MIN_SHOULDER_LEFT       2100
-#define MIN_SHOULDER_RIGHT      1600
+#define MIN_SHOULDER_LEFT       2600
+#define MIN_SHOULDER_RIGHT      2900
 #define MIN_RAW_INPUT           0
 #define MAX_RAW_INPUT           4095
-#define MIN_DEGREE              -45
-#define MAX_DEGREE              45
+#define MIN_DEGREE              -90
+#define MAX_DEGREE              90
 
 esp_err_t joystick_init();
 int map_joystick_raw_to_degree(int input); 
